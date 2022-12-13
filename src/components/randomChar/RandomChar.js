@@ -74,11 +74,11 @@ class RandomChar extends Component {
                     <p className="randomchar__title">
                         Or choose another one
                     </p>
-                    <button className="button button__main">
-                        <div onClick={() => {
-                            this.updateChar()
-                            this.onCharLoading()
-                        }} className="inner">try it</div>
+                    <button onClick={() => {
+                        this.updateChar()
+                        this.onCharLoading()
+                    }} className="button button__main">
+                        <div className="inner">try it</div>
                     </button>
                     <img src={mjolnir} alt="mjolnir" className="randomchar__decoration" />
                 </div>
