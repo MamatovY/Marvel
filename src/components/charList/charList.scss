@@ -25,6 +25,10 @@
         cursor: pointer;
         transition: 0.3s transform;
 
+        &_selected {
+            box-shadow: 0 5px 20px $main-color;
+            transform: translateY(-8px);
+        }
 
         img {
             width: 200px;
@@ -34,10 +38,7 @@
         }
     }
 
-    &__item.selected {
-        box-shadow: 0 5px 20px $main-color;
-        transform: translateY(-8px);
-    }
+
 
 
 
