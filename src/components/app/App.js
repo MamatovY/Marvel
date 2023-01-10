@@ -5,14 +5,19 @@ import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
-
 import decoration from '../../resources/img/vision.png';
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+import ComicsList from "../comicsList/ComicsList";
+import SingleComic from "../singleComic/SingleComic";
 
 const App = () => {
     const [selectedChar, setSelectedChar] = useState(null)
+    const [selectedComics, setSelectedComics] = useState(null)
 
     const onCharSelected = (id) => {
+        setSelectedChar(id)
+    }
+    const onComicsSelected = (id) => {
         setSelectedChar(id)
     }
 
@@ -31,6 +36,8 @@ const App = () => {
                 </div>
                 <img className="bg-decoration" src={decoration} alt="vision" />
             </main>
+            {/* <ComicsList /> */}
+            {/* <SingleComic /> */}
         </div>
     )
 

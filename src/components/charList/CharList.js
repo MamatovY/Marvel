@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-
 import './charList.scss';
+
+import PropTypes from 'prop-types';
 import useMarvelService from '../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -14,13 +14,14 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(210)
     const [charEnded, setCharEnded] = useState(false)
 
-
-
     const { loading, error, getAllCharacters } = useMarvelService()
 
     useEffect(() => {
-        onRequest(offset, true)
+        if (charList.length === 0) {
+            onRequest(offset, true)
+        }
     }, [])
+
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true)
@@ -37,12 +38,13 @@ const CharList = (props) => {
             ended = true
         }
 
-        setCharList(charList => [...charList, ...newCharList])
+        setCharList([...charList, ...newCharList])
         setNewItemLoading(false)
         setOffset(offset + 9)
         setCharEnded(ended)
     }
 
+    console.log('CharList!');
 
     const itemRefs = useRef([])
 
