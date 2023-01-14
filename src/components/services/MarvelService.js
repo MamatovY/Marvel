@@ -7,38 +7,46 @@ const useMarvelService = () => {
     const _baseOffset = 210
 
     const getAllCharacters = async (offset = _baseOffset) => {
-        console.log('GetAllCharacters');
         const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
         return res.data.results.map(_transformCharacter)
     }
 
     const getAllComics = async (offset = _baseOffset) => {
-        console.log('getAllComics')
         const res = await request(`${_apiBase}comics?limit=8&offset=${offset}&${_apiKey}`);
         return res.data.results.map(_transformComics)
     }
     const getCharacter = async (id) => {
         const res = await request(
             `${_apiBase}characters/${id}?${_apiKey}`);
-        return _transformCharacter(res.data.results[0])
+        const comics = await request(
+            `${_apiBase}characters/${id}/comics?${_apiKey}`);
+
+        return _transformCharacter(res.data.results[0], comics.data.results)
     }
 
-    const getComics = async (id) => {
+
+
+
+
+    const getComic = async (id) => {
         const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
         return _transformComics(res.data.results[0]);
     }
 
-    const _transformComics = (char) => {
+    const _transformComics = (comics) => {
         return {
-            id: char.id,
-            title: char.title,
-            thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
-            price: char.prices[0].price,
-            homepage: char.urls[0].url,
+            id: comics.id,
+            title: comics.title,
+            thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
+            price: comics.prices[0].price ? `${comics.prices[0].price}$` : 'not available',
+            homepage: comics.urls[0].url,
+            pageCount: comics.pageCount ? `${comics.pageCount} pages` : 'No information about the number of pages',
+            description: comics.description || 'There is no description for this comic',
+            language: comics.textObjects.language || 'en-us'
         }
     }
 
-    const _transformCharacter = (char) => {
+    const _transformCharacter = (char, comics) => {
         return {
             id: char.id,
             name: char.name,
@@ -46,10 +54,10 @@ const useMarvelService = () => {
             thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
-            comics: char.comics.items
+            comics
         }
     }
-    return { loading, error, getAllCharacters, getCharacter, getAllComics, clearError, getComics }
+    return { loading, error, getAllCharacters, getCharacter, getAllComics, clearError, getComic }
 }
 
 export default useMarvelService; 

@@ -3,6 +3,7 @@ import './comicsList.scss';
 
 import useMarvelService from '../services/MarvelService';
 import Spinner from '../spinner/Spinner';
+import { Link } from 'react-router-dom';
 
 const ComicsList = () => {
     const [comicsList, setComicsList] = useState([])
@@ -41,11 +42,11 @@ const ComicsList = () => {
         const items = comicsList.map((item, i) => {
             return (
                 <li key={i} className="comics__item">
-                    <a href={item.homepage}>
+                    <Link to={`/comics/${item.id}`}>
                         <img src={item.thumbnail} alt="x-men" className="comics__item-img" />
                         <div className="comics__item-name">{item.title}</div>
                         <div className="comics__item-price">{item.price ? item.price : 'NOT AVAILABLE'}</div>
-                    </a>
+                    </Link>
                 </li>
             )
         })

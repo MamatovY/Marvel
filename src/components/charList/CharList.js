@@ -44,7 +44,6 @@ const CharList = (props) => {
         setCharEnded(ended)
     }
 
-    console.log('CharList!');
 
     const itemRefs = useRef([])
 

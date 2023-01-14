@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom'
 
 import './charInfo.scss';
 import useMarvelService from '../services/MarvelService';
@@ -17,12 +17,13 @@ const CharInfo = (props) => {
     }, [props.charId])
 
     const updateChar = () => {
-
         const { charId } = props
         if (!charId) {
             return
         }
+
         clearError()
+
         getCharacter(charId)
             .then(onCharLoaded)
     }
@@ -40,6 +41,7 @@ const CharInfo = (props) => {
             {skeleton}
             {errorMessage}
             {spinner}
+
             {content}
         </div>
     )
@@ -86,9 +88,9 @@ const View = ({ char }) => {
                 {comics.map((item, i) => {
                     if (i > 9) return null
                     return (
-                        <li key={i} className="char__comics-item">
-                            {i + 1}. {item.name}
-                        </li>
+                        <Link to={`/comics/${item.id}`} key={i} className="char__comics-item">
+                            {i + 1}. {item.title}
+                        </Link>
                     )
                 })}
             </ul>
