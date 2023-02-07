@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import {
+    CSSTransition,
+    TransitionGroup,
+} from 'react-transition-group';
 import './charList.scss';
 
 import PropTypes from 'prop-types';
@@ -64,25 +68,33 @@ const CharList = (props) => {
             }
 
             return (
-                <li
-                    ref={el => itemRefs.current[i] = el}
+                <CSSTransition
+                    in={true}
+                    timeout={2000}
+                    classNames="item"
                     key={item.id}
-                    className='char__item'
-                    onClick={() => {
-                        focusOnItem(i)
-                        props.onCharSelected(item.id)
-                    }
-                    }
                 >
-                    <img src={item.thumbnail} alt="abyss" style={imgStyle} />
-                    <div className="char__name">{item.name}</div>
-                </li >
+                    <li
+                        ref={el => itemRefs.current[i] = el}
+                        className='char__item'
+                        onClick={() => {
+                            focusOnItem(i)
+                            props.onCharSelected(item.id)
+                        }
+                        }
+                    >
+                        <img src={item.thumbnail} alt="abyss" style={imgStyle} />
+                        <div className="char__name">{item.name}</div>
+                    </li >
+                </CSSTransition>
             )
         })
         return (
-            <ul className="char__grid">
-                {items}
-            </ul>
+            <>
+                <TransitionGroup className="char__grid">
+                    {items}
+                </TransitionGroup>
+            </>
         )
     }
 
@@ -92,7 +104,7 @@ const CharList = (props) => {
     const gridStyle = loading ? { 'display': 'block' } : null
     return (
         <div className="char__list" >
-            <ul className="char__grid" style={gridStyle}>
+            <ul style={gridStyle}>
                 {errorMessage}
                 {spinner}
                 {View(charList)}

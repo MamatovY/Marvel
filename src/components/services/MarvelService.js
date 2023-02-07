@@ -11,17 +11,19 @@ const useMarvelService = () => {
         return res.data.results.map(_transformCharacter)
     }
 
-    const getAllComics = async (offset = _baseOffset) => {
-        const res = await request(`${_apiBase}comics?limit=8&offset=${offset}&${_apiKey}`);
-        return res.data.results.map(_transformComics)
-    }
     const getCharacter = async (id) => {
         const res = await request(
             `${_apiBase}characters/${id}?${_apiKey}`);
         const comics = await request(
             `${_apiBase}characters/${id}/comics?${_apiKey}`);
-
         return _transformCharacter(res.data.results[0], comics.data.results)
+    }
+
+
+    const getAllComics = async (offset = _baseOffset) => {
+        const res = await request(`${_apiBase}comics?limit=8&offset=${offset}&${_apiKey}`);
+
+        return res.data.results.map(_transformComics)
     }
 
 
@@ -30,6 +32,7 @@ const useMarvelService = () => {
 
     const getComic = async (id) => {
         const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
+
         return _transformComics(res.data.results[0]);
     }
 
