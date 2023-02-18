@@ -3,7 +3,7 @@ import './app.scss'
 
 
 import AppHeader from '../appHeader/AppHeader';
-import { ComicsPage, Main, Page404, SingleComicPage } from '../../pages';
+import { ComicsPage, Main, Page404, SinglePage, SingleComicLayout, SingleCharLayout } from '../../pages';
 
 const App = () => {
     return (
@@ -13,7 +13,8 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={<Main />} />
                     <Route path='/comics' element={<ComicsPage />} />
-                    <Route path='/comics/:comicId' element={<SingleComicPage />} />
+                    <Route exact path="/comics/:id" element={<SinglePage Component={SingleComicLayout} dataType='comic' />} />
+                    <Route exact path="/characters/:id" element={<SinglePage Component={SingleCharLayout} dataType='character' />} />
                     <Route path='*' element={<Page404 />} />
                 </Routes>
             </div>
