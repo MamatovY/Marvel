@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import {
     CSSTransition,
     TransitionGroup,
@@ -10,7 +10,20 @@ import useMarvelService from '../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-
+const setContent = (process, Content, newItemLoading) => {
+    switch (process) {
+        case 'waiting':
+            return <Spinner />
+        case 'loading':
+            return newItemLoading ? <Content /> : <Spinner />
+        case 'confirmed':
+            return <Content />
+        case 'error':
+            return <ErrorMessage />
+        default:
+            throw new Error('Unexpected process state')
+    }
+}
 
 const CharList = (props) => {
     const [charList, setCharList] = useState([])
@@ -18,7 +31,8 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(210)
     const [charEnded, setCharEnded] = useState(false)
 
-    const { loading, error, getAllCharacters } = useMarvelService()
+
+    const { loading, getAllCharacters, process, setProcess } = useMarvelService()
 
     useEffect(() => {
         if (charList.length === 0) {
@@ -30,8 +44,11 @@ const CharList = (props) => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true)
 
+
+
         getAllCharacters(offset)
             .then(onCharLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
 
@@ -70,7 +87,7 @@ const CharList = (props) => {
             return (
                 <CSSTransition
                     in={true}
-                    timeout={2000}
+                    timeout={1000}
                     classNames="item"
                     key={item.id}
                 >
@@ -98,16 +115,16 @@ const CharList = (props) => {
         )
     }
 
-    const errorMessage = error ? <ErrorMessage /> : null
-    const spinner = loading && !newItemLoading ? <Spinner /> : null
+    const elements = useMemo(() => {
+        return setContent(process, () => View(charList), newItemLoading)
+    }, [process])
 
     const gridStyle = loading ? { 'display': 'block' } : null
     return (
         <div className="char__list" >
             <ul style={gridStyle}>
-                {errorMessage}
-                {spinner}
-                {View(charList)}
+                {elements}
+
             </ul>
             <button
                 className="button button__main button__long"
