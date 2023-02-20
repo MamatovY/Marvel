@@ -38,6 +38,7 @@ const CharList = (props) => {
         if (charList.length === 0) {
             onRequest(offset, true)
         }
+        //eslint-disable-next-line
     }, [])
 
 
@@ -117,6 +118,7 @@ const CharList = (props) => {
 
     const elements = useMemo(() => {
         return setContent(process, () => View(charList), newItemLoading)
+        //eslint-disable-next-line
     }, [process])
 
     const gridStyle = loading ? { 'display': 'block' } : null

@@ -20,6 +20,7 @@ const RandomChar = (props) => {
         return () => {
             clearInterval(timerId)
         }
+        //eslint-disable-next-line
     }, [])
 
     const updateChar = () => {

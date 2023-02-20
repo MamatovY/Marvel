@@ -34,6 +34,7 @@ const ComicsList = () => {
         if (comicsList.length === 0) {
             onRequest(offset, true)
         }
+        //eslint-disable-next-line
     }, [])
 
     const onRequest = (offset, initial) => {

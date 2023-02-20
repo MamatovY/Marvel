@@ -10,14 +10,11 @@ import CharSearch from '../components/charSearch';
 
 const Main = () => {
     const [selectedChar, setSelectedChar] = useState(null)
-    const [selectedComics, setSelectedComics] = useState(null)
 
     const onCharSelected = (id) => {
         setSelectedChar(id)
     }
-    const onComicsSelected = (id) => {
-        setSelectedChar(id)
-    }
+
     return (
         <>
 
