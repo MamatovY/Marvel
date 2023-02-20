@@ -13,9 +13,9 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 const setContent = (process, Content, newItemLoading) => {
     switch (process) {
         case 'waiting':
-            return <Spinner />
+            return <><div></div><Spinner /></>//spinner alignment
         case 'loading':
-            return newItemLoading ? <Content /> : <Spinner />
+            return newItemLoading ? <Content /> : <><div></div><Spinner /> </>//spinner alignment
         case 'confirmed':
             return <Content />
         case 'error':
@@ -44,8 +44,6 @@ const CharList = (props) => {
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true)
-
-
 
         getAllCharacters(offset)
             .then(onCharLoaded)
@@ -78,8 +76,8 @@ const CharList = (props) => {
     }
 
     function View(charList) {
+        console.log(newItemLoading);
         const items = charList.map((item, i) => {
-            // const charListClass = item.id === props.charId ? 'char__item selected' : 'char__item'
             let imgStyle = { 'objectFit': 'cover' };
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
                 imgStyle = { 'objectFit': 'unset' };
@@ -88,7 +86,7 @@ const CharList = (props) => {
             return (
                 <CSSTransition
                     in={true}
-                    timeout={7000}
+                    timeout={newItemLoading ? 1000 : 7000}
                     classNames="item"
                     key={item.id}
                 >
@@ -109,9 +107,7 @@ const CharList = (props) => {
         })
         return (
             <>
-
                 {items}
-
             </>
         )
     }
