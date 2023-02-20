@@ -88,7 +88,7 @@ const CharList = (props) => {
             return (
                 <CSSTransition
                     in={true}
-                    timeout={1000}
+                    timeout={7000}
                     classNames="item"
                     key={item.id}
                 >
@@ -109,9 +109,9 @@ const CharList = (props) => {
         })
         return (
             <>
-                <TransitionGroup className="char__grid">
-                    {items}
-                </TransitionGroup>
+
+                {items}
+
             </>
         )
     }
@@ -125,8 +125,9 @@ const CharList = (props) => {
     return (
         <div className="char__list" >
             <ul style={gridStyle}>
-                {elements}
-
+                <TransitionGroup className="char__grid">
+                    {elements}
+                </TransitionGroup>
             </ul>
             <button
                 className="button button__main button__long"
